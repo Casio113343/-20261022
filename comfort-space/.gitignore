@@ -1,0 +1,13 @@
+node_modules/
+dist/
+target/
+.bsp/
+.metals/
+.tools/
+.runtime/
+.env
+.env.*
+!.env.example
+*.log
+*.local
+栖语-我的记录*.json

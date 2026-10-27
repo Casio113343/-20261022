@@ -23,7 +23,7 @@ GitHub 仓库：[Casio113343/-20261022](https://github.com/Casio113343/-20261022
 
 前端使用 TypeScript + React，后端使用 Scala 3，遵循纯函数核心、副作用边界和 Monad / IO 组合的课程方案。
 
-当前目录主要包含课程资料和规章文档，尚未创建可运行的前后端应用。
+新网站全部放在独立目录 [comfort-space](./comfort-space/README.md)。首版已提供可运行的十页浏览器演示；Scala 后端、数据库与真实 AI 尚待后续实现，不将演示版视为最终完整作业。
 
 ## 课程来源
 
