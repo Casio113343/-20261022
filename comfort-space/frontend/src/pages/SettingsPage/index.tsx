@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Download, Trash2 } from 'lucide-react';
 import { PageHeading, Toggle } from '../../components/ui';
 import { useApp } from '../../state/AppProvider';
@@ -9,6 +9,11 @@ export function SettingsPage() {
   const { state, setApp } = useApp();
   const [confirm, setConfirm] = useState(false);
   const [notice, setNotice] = useState('');
+  const [nickname, setNickname] = useState(state.preferences.nickname);
+  useEffect(
+    () => setNickname(state.preferences.nickname),
+    [state.preferences.nickname],
+  );
   const update = (change: Partial<typeof state.preferences>) =>
     setApp({
       type: 'preferences',
@@ -27,17 +32,23 @@ export function SettingsPage() {
           <input
             id="nickname"
             maxLength={20}
-            value={state.preferences.nickname}
-            onChange={(event) => update({ nickname: event.target.value })}
+            value={nickname}
+            onChange={(event) => setNickname(event.target.value)}
             placeholder="留空也可以"
             className="w-full max-w-sm rounded-xl border border-[#e0e5d7] bg-[#fafbf6] px-4 py-3 text-sm outline-none focus:border-[#809572]"
           />
+          <button
+            onClick={() => update({ nickname })}
+            className="ml-3 rounded-full border border-[#dbe2d1] px-4 py-3 text-xs"
+          >
+            保存称呼
+          </button>
         </div>
         <Toggle
           checked={state.preferences.remember}
           onChange={(remember) => update({ remember })}
-          label="在这台设备记住内容"
-          description="默认关闭。开启后，对话、收藏、手记与偏好保存到当前浏览器；共享设备请谨慎开启。关闭会移除已保存副本，本次页面内容仍在。"
+          label="在这台设备保持访客身份"
+          description="默认使用会话 Cookie。开启后在本机浏览器保留访客身份，最长 7 天。关闭仅恢复会话 Cookie，不删除服务器内容；需要删除时请使用下方清空功能。共享设备请勿开启。"
         />
         <Toggle
           checked={state.preferences.reducedMotion}
@@ -49,7 +60,7 @@ export function SettingsPage() {
       <section className="mt-6 rounded-3xl border border-[#e1e6d9] bg-white/50 p-6 sm:p-8">
         <h2 className="font-serif text-xl">属于你的内容</h2>
         <p className="mt-3 text-xs leading-6 text-[#676f5f]">
-          导出文件包含对话和手记，请自行妥善保管。清空会取消正在等待的演示回复。
+          导出文件包含对话和手记，请自行妥善保管。请等待消息发送完成后再清空。
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <button
@@ -81,7 +92,7 @@ export function SettingsPage() {
                 onClick={() => {
                   setApp({ type: 'clear' });
                   setConfirm(false);
-                  setNotice('内容已清空，本地保存已关闭。');
+                  setNotice('已提交清空请求，请留意页面同步结果。');
                 }}
                 className="font-medium text-[#985e42]"
               >

@@ -32,7 +32,7 @@ const spaceNavigation = [
 export function Layout() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
-  const { state, storageError } = useApp();
+  const { state, retry } = useApp();
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [location.pathname]);
@@ -139,22 +139,53 @@ export function Layout() {
             className="flex items-center gap-2 rounded-full border border-[#e1e7d8] bg-[#f0f3e9] px-3 py-1.5 text-[10px] text-[#627054]"
           >
             <span className="size-1.5 rounded-full bg-[#93a57e]" />
-            演示模式
+            后端演示
           </Link>
         </header>
-        {storageError && (
+        {state.error && (
           <div
             role="alert"
             className="mx-5 mt-3 rounded-xl bg-amber-50 p-3 text-xs text-amber-800"
           >
-            本机保存未成功，可能是空间不足或内容过多。本次内容仍可查看，刷新后可能丢失。
+            {state.error}{' '}
+            <button
+              onClick={retry}
+              disabled={!!state.pending || state.saving}
+              className="ml-3 underline"
+            >
+              重试
+            </button>
+            <button
+              onClick={() => window.location.reload()}
+              className="ml-3 underline"
+            >
+              重新载入已保存内容
+            </button>
           </div>
         )}
         <main
           key={location.pathname}
           className="mx-auto w-full max-w-[1240px] px-5 pb-9 pt-9 sm:px-10 lg:px-12 lg:pt-11"
         >
-          <Outlet />
+          {!state.ready && !state.error && (
+            <p role="status" className="mb-5 text-sm">
+              正在连接本机后端，恢复你的内容……
+            </p>
+          )}
+          {state.saving && (
+            <p role="status" className="mb-5 text-sm">
+              正在保存到本机后端……
+            </p>
+          )}
+          <p className="mb-5 text-[11px] leading-6 text-[#627054]">
+            后端演示 · 内容保存到本机服务器数据库，访客身份有效期为 7 天。
+            <Link to="/privacy" className="ml-2 underline">
+              了解数据保存
+            </Link>
+          </p>
+          <fieldset disabled={!state.ready || state.saving} className="min-w-0">
+            <Outlet />
+          </fieldset>
         </main>
         <footer className="mx-5 flex flex-wrap justify-between gap-3 border-t border-[#e8ece1] py-5 text-[10px] text-[#686e5f] sm:mx-10 lg:mx-12">
           <span>栖语 · 让心事有处安放</span>

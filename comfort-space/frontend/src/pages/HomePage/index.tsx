@@ -84,14 +84,24 @@ export function HomePage() {
         <Composer
           large
           onSend={start}
-          busy={!!state.pending || !state.ready}
+          busy={
+            !!state.pending ||
+            !!state.failedSend ||
+            state.saving ||
+            !state.ready
+          }
           placeholder="今天发生了什么？或者，只是想找个地方待一会儿……"
         />
         <div className="mt-3 flex flex-wrap gap-2">
           {['今天有点累', '有些话，想找人说说', '说不清，只想待一会儿'].map(
             (text) => (
               <button
-                disabled={!!state.pending || !state.ready}
+                disabled={
+                  !!state.pending ||
+                  !!state.failedSend ||
+                  state.saving ||
+                  !state.ready
+                }
                 onClick={() => start(text)}
                 key={text}
                 className="rounded-full border border-[#e1e6d9] px-3 py-2 text-[10px] text-[#647056] transition hover:border-[#9cad8c] hover:bg-[#edf2e6] disabled:opacity-50"
@@ -103,8 +113,7 @@ export function HomePage() {
         </div>
         <p className="mt-3 flex items-center gap-1.5 text-[10px] text-[#686f5d]">
           <LockKeyhole size={11} />
-          演示回复不连接真实 AI ·{' '}
-          {state.preferences.remember ? '已开启本机保存' : '默认仅本次会话保留'}
+          演示回复不连接真实 AI · {'内容保存在本机后端，可刷新恢复。'}
         </p>
       </section>
       <section className="mb-9">

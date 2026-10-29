@@ -1,5 +1,4 @@
 import type { Action, AppState, Conversation, SavedState } from './types';
-import { assessDirection } from './companionship';
 
 export function initialState(): AppState {
   return {
@@ -10,6 +9,9 @@ export function initialState(): AppState {
     preferences: { nickname: '', remember: false, reducedMotion: false },
     ready: false,
     pending: null,
+    failedSend: null,
+    saving: false,
+    error: null,
   };
 }
 export function savedPart(state: AppState): SavedState {
@@ -23,6 +25,46 @@ export function savedPart(state: AppState): SavedState {
 }
 export function appReducer(state: AppState, action: Action): AppState {
   switch (action.type) {
+    case 'serverSnapshot':
+      return { ...state, ...action.saved, ready: true };
+    case 'serverConversation':
+      if (
+        state.pending?.requestId !== action.requestId ||
+        state.pending.conversationId !== action.conversation.id
+      )
+        return state;
+      return {
+        ...state,
+        pending: null,
+        failedSend: null,
+        error: null,
+        conversations: [
+          action.conversation,
+          ...state.conversations.filter((c) => c.id !== action.conversation.id),
+        ],
+      };
+    case 'sendFailed':
+      if (state.pending?.requestId !== action.request.requestId) return state;
+      return {
+        ...state,
+        pending: null,
+        failedSend: action.request,
+        error: action.error,
+      };
+    case 'retry':
+      return {
+        ...state,
+        pending: {
+          conversationId: action.request.conversationId,
+          requestId: action.request.requestId,
+        },
+        error: null,
+      };
+    case 'saving':
+      return { ...state, saving: action.value };
+    case 'error':
+      return { ...state, error: action.error };
+
     case 'hydrate':
       return { ...initialState(), ...(action.saved ?? {}), ready: true };
     case 'send': {
@@ -56,47 +98,5 @@ export function appReducer(state: AppState, action: Action): AppState {
         },
       };
     }
-    case 'receive': {
-      if (
-        state.pending?.requestId !== action.requestId ||
-        state.pending.conversationId !== action.conversationId
-      )
-        return state;
-      return {
-        ...state,
-        pending: null,
-        conversations: state.conversations.map((c) => {
-          if (c.id !== action.conversationId) return c;
-          const next = {
-            ...c,
-            messages: [...c.messages, action.message],
-            updatedAt: action.message.createdAt,
-          };
-          return { ...next, direction: assessDirection(next, 3) };
-        }),
-      };
-    }
-    case 'delete':
-      return {
-        ...state,
-        conversations: state.conversations.filter((c) => c.id !== action.id),
-        pending:
-          state.pending?.conversationId === action.id ? null : state.pending,
-      };
-    case 'favourite':
-      return {
-        ...state,
-        favourites: state.favourites.includes(action.id)
-          ? state.favourites.filter((id) => id !== action.id)
-          : [...state.favourites, action.id],
-      };
-    case 'mood':
-      return { ...state, moods: [action.mood, ...state.moods] };
-    case 'deleteMood':
-      return { ...state, moods: state.moods.filter((m) => m.id !== action.id) };
-    case 'preferences':
-      return { ...state, preferences: action.preferences };
-    case 'clear':
-      return { ...initialState(), ready: true };
   }
 }

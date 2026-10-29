@@ -110,9 +110,8 @@ export function HistoryPage() {
         </div>
       )}
       <p className="mt-6 text-[11px] leading-6 text-[#656f57]">
-        {state.preferences.remember
-          ? '记录仅保存在当前浏览器，请勿在公共设备开启本机保存。'
-          : '当前仅本次会话保留；如希望刷新后继续查看，可在“我的偏好”中开启本机保存。'}
+        记录保存在本机服务器，并按当前访客身份隔离。清理 Cookie
+        或身份过期后，将无法继续访问该身份的记录。
       </p>
     </>
   );

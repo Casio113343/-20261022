@@ -37,7 +37,7 @@ export function MoodPage() {
             },
           });
           setNote('');
-          setNotice('已经记下了。谢谢你照顾此刻的自己。');
+          setNotice('已提交，请留意页面同步结果。');
         }}
         className="mb-9 rounded-3xl border border-[#e1e6d9] bg-white/70 p-6 sm:p-8"
       >

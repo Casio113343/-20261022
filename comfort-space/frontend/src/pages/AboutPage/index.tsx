@@ -24,7 +24,7 @@ export function AboutPage() {
           {
             icon: MessageCircle,
             title: '当前是预设演示',
-            text: '本版本不调用真实大模型。回复来自本地确定性模板，用来体验交互，不具备开放式理解能力。关键词判断仅在至少三轮回复之后尝试；三轮是原型参数，不是对用户的要求。',
+            text: '本版本已接通 Scala 后端和 PostgreSQL，不调用真实大模型。回复来自Scala 后端的确定性模板，用来体验交互，不具备开放式理解能力。关键词判断仅在至少三轮回复之后尝试；三轮是原型参数，不是对用户的要求。',
           },
           {
             icon: HeartHandshake,

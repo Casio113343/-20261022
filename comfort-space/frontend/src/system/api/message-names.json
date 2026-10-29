@@ -1,0 +1,13 @@
+{
+  "CreateConversationMessage": "CreateConversationMessage",
+  "SendMessageMessage": "SendMessageMessage",
+  "GetConversationMessage": "GetConversationMessage",
+  "ListConversationsMessage": "ListConversationsMessage",
+  "DeleteConversationMessage": "DeleteConversationMessage",
+  "GetStateMessage": "GetStateMessage",
+  "ClearDataMessage": "ClearDataMessage",
+  "UpdatePreferencesMessage": "UpdatePreferencesMessage",
+  "AddMoodMessage": "AddMoodMessage",
+  "DeleteMoodMessage": "DeleteMoodMessage",
+  "SetFavouriteMessage": "SetFavouriteMessage"
+}

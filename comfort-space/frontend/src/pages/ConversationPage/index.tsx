@@ -32,7 +32,7 @@ export function ConversationPage() {
           </Link>
         }
       >
-        记录可能已被删除，或没有开启本机保存。你仍然可以从此刻重新说起。
+        记录可能已被删除，或当前访客身份已经改变。你仍然可以从此刻重新说起。
       </EmptyState>
     );
   return (
@@ -113,12 +113,18 @@ export function ConversationPage() {
         <div ref={end} />
       </div>
       <div className="sticky bottom-0 bg-[#f8f9f4]/95 pt-3 pb-1 backdrop-blur">
-        <Composer onSend={onSend} busy={!!state.pending || !state.ready} />
+        <Composer
+          onSend={onSend}
+          busy={
+            !!state.pending ||
+            !!state.failedSend ||
+            state.saving ||
+            !state.ready
+          }
+        />
         <p className="mt-3 text-center text-[10px] leading-5 text-[#676f5a]">
           演示模式使用预设回复，并非真实 AI。
-          {state.preferences.remember
-            ? '已开启本机保存。'
-            : '未开启本机保存，刷新后清除。'}{' '}
+          {'内容保存在本机后端，可刷新恢复。'}{' '}
           <Link className="underline underline-offset-2" to="/settings">
             设置
           </Link>

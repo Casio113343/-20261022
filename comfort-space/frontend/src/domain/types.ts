@@ -56,22 +56,40 @@ export type Mood = z.infer<typeof moodSchema>;
 export type Preferences = z.infer<typeof preferenceSchema>;
 export type SavedState = z.infer<typeof savedSchema>;
 export type Pending = Readonly<{ conversationId: string; requestId: string }>;
+export type FailedSend = Readonly<{
+  conversationId: string;
+  requestId: string;
+  content: string;
+  isNew: boolean;
+}>;
 export type AppState = SavedState &
-  Readonly<{ ready: boolean; pending: Pending | null }>;
+  Readonly<{
+    ready: boolean;
+    pending: Pending | null;
+    failedSend: FailedSend | null;
+    saving: boolean;
+    error: string | null;
+  }>;
 export type Action =
+  | Readonly<{
+      type: 'serverConversation';
+      conversation: Conversation;
+      requestId: string;
+    }>
+  | Readonly<{ type: 'serverSnapshot'; saved: SavedState }>
+  | Readonly<{ type: 'sendFailed'; request: FailedSend; error: string }>
+  | Readonly<{ type: 'retry'; request: FailedSend }>
+  | Readonly<{ type: 'saving'; value: boolean }>
+  | Readonly<{ type: 'error'; error: string | null }>
   | Readonly<{ type: 'hydrate'; saved: SavedState | null }>
   | Readonly<{
       type: 'send';
       conversationId: string;
       message: Message;
       requestId: string;
-    }>
-  | Readonly<{
-      type: 'receive';
-      conversationId: string;
-      requestId: string;
-      message: Message;
-    }>
+    }>;
+
+export type UserCommand =
   | Readonly<{ type: 'delete'; id: string }>
   | Readonly<{ type: 'favourite'; id: string }>
   | Readonly<{ type: 'mood'; mood: Mood }>
