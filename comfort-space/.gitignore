@@ -11,3 +11,6 @@ target/
 *.log
 *.local
 栖语-我的记录*.json
+submission/*.zip
+submission/*.mp4
+submission/*.webm
