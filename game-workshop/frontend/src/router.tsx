@@ -16,6 +16,7 @@ import StudioPage from "./pages/StudioPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import PlayPage from "./pages/PlayPage";
 import ProductionPage from "./pages/ProductionPage";
+import LibraryPage from "./pages/LibraryPage";
 export function Router() {
   return (
     <BrowserRouter>
@@ -55,6 +56,20 @@ export function Router() {
               我的作品
             </NavLink>
           </nav>
+          <nav className="mt-2 flex gap-2 lg:flex-col">
+            <NavLink
+              className="rounded-xl px-3 py-3 text-sm text-white/70 hover:bg-white/10"
+              to="/services"
+            >
+              小服务创作
+            </NavLink>
+            <NavLink
+              className="rounded-xl px-3 py-3 text-sm text-white/70 hover:bg-white/10"
+              to="/library"
+            >
+              创作资源库
+            </NavLink>
+          </nav>
           <div className="mt-auto hidden pt-10 lg:block">
             <div className="rounded-xl border border-white/10 p-4">
               <Code2 size={18} className="mb-3 text-[#b5d7ba]" />
@@ -73,6 +88,14 @@ export function Router() {
         </aside>
         <div className="mx-auto max-w-[1510px] px-5 py-7 md:px-10 lg:py-8">
           <Routes>
+            <Route
+              path="/services"
+              element={<LibraryPage key="services" mode="services" />}
+            />
+            <Route
+              path="/library"
+              element={<LibraryPage key="library" mode="library" />}
+            />
             <Route path="/studio" element={<StudioPage />} />
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/production/:id" element={<ProductionPage />} />

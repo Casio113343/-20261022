@@ -1,7 +1,7 @@
 import { Globe2 } from "lucide-react";
 import { Field } from "../../../components/ui/Field";
 import type { World } from "../../../objects/workshop";
-import { ImagePicker } from "./ImagePicker";
+import { ImagePicker } from "../../../components/ui/ImagePicker";
 export function WorldPanel({
   world,
   onChange,

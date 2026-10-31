@@ -2,7 +2,7 @@ import { Plus, Trash2, UserRound } from "lucide-react";
 import type { Character } from "../../../objects/workshop";
 import { Field, secondary } from "../../../components/ui/Field";
 import { newCharacter } from "../functions/draft";
-import { ImagePicker } from "./ImagePicker";
+import { ImagePicker } from "../../../components/ui/ImagePicker";
 export function CharactersPanel({
   characters,
   onChange,

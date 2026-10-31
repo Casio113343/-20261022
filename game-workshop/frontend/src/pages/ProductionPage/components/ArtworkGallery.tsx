@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Image, Layers, ShieldCheck } from "lucide-react";
 import type { ArtworkManifest, ArtworkSlot } from "../../../objects/workshop";
@@ -7,7 +8,7 @@ import {
   latestTask,
   taskLabels,
 } from "../functions/artwork";
-import { ArtworkImage } from "./ArtworkImage";
+import { ArtworkImage } from "../../../components/ui/ArtworkImage";
 import { secondary } from "../../../components/ui/Field";
 export function ArtworkGallery({
   manifest,
@@ -144,6 +145,12 @@ export function ArtworkGallery({
                           className="mt-2 max-h-60 w-full object-contain"
                         />
                       </details>
+                      <Link
+                        className="mt-2 block text-xs text-mint underline"
+                        to={`/services?sourceProject=${manifest.projectId}&revision=${r.id}&title=${encodeURIComponent(slot.subject || "美术素材")}`}
+                      >
+                        保存此生成素材到创作资源库
+                      </Link>
                       {r.id === slot.currentRevisionId ? (
                         <span className="mt-2 inline-block text-xs text-mint">
                           当前使用

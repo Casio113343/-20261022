@@ -12,6 +12,7 @@ import { WorldPanel } from "./components/WorldPanel";
 import { CharactersPanel } from "./components/CharactersPanel";
 import { PlanPanel } from "./components/PlanPanel";
 import { primary, secondary } from "../../components/ui/Field";
+import { ResourceConnector } from "./components/ResourceConnector";
 export default function StudioPage() {
   const s = useStudio();
   const genre = s.genres.find((g) => g.id === s.input.genreId);
@@ -96,6 +97,13 @@ export default function StudioPage() {
       ) : (
         <div className="grid items-start gap-9 xl:grid-cols-[minmax(0,1fr)_240px]">
           <main className="min-w-0 space-y-10" aria-busy={!!s.busy}>
+            <ResourceConnector
+              project={s.project}
+              token={s.session?.token}
+              busy={!!s.busy}
+              dirty={s.dirty}
+              onAttach={s.connectResource}
+            />
             <fieldset disabled={!!s.busy} className="min-w-0 space-y-10">
               <GenrePanel
                 input={s.input}

@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { ImagePlus, X } from "lucide-react";
-import type { ImageRef } from "../../../objects/workshop";
-import { uploadAsset } from "../../../apis/assets/UploadAssetMessage";
-import { getAsset } from "../../../apis/assets/GetAssetMessage";
+import type { ImageRef } from "../../objects/workshop";
+import { uploadAsset } from "../../apis/assets/UploadAssetMessage";
+import { getAsset } from "../../apis/assets/GetAssetMessage";
 export function ImagePicker({
   images,
   onChange,

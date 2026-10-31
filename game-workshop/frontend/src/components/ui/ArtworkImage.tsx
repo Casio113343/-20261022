@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ImageOff } from "lucide-react";
-import { getAsset } from "../../../apis/assets/GetAssetMessage";
-import { assetUrl } from "../../../system/api/assets";
+import { getAsset } from "../../apis/assets/GetAssetMessage";
+import { assetUrl } from "../../system/api/assets";
 export function ArtworkImage({
   assetId,
   token,

@@ -36,9 +36,7 @@ export function latestTask(
     .reverse()
     .find((t) => t.slotId === slotId && t.status !== "obsolete");
 }
-export function summarizeArtwork(
-  manifest: ArtworkManifest,
-): Readonly<{
+export function summarizeArtwork(manifest: ArtworkManifest): Readonly<{
   total: number;
   completed: number;
   missing: number;

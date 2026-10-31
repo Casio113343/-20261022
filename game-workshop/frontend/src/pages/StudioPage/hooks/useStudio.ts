@@ -23,6 +23,7 @@ import {
   storeDraft,
   clearDraft,
 } from "../../../system/storage/drafts";
+import { attachResource } from "../../../apis/library/AttachResourceMessage";
 export function useStudio() {
   const [params, setParams] = useSearchParams();
   const id = params.get("project");
@@ -193,6 +194,31 @@ export function useStudio() {
       });
     });
   }
+  function connectResource(
+    resourceId: string,
+    resourceVersion: number,
+    target: string,
+    expectedManifestRevision: number,
+  ) {
+    return perform("接入创作资源", async () => {
+      const saved = await persist();
+      const next = await attachResource(
+        {
+          projectId: saved.id,
+          expectedVersion: saved.version,
+          resourceId,
+          resourceVersion,
+          target,
+          expectedManifestRevision,
+        },
+        session?.token,
+      );
+      setProject(next);
+      setInput(next.input);
+      if (session) clearDraft(session.ownerId, next.id);
+      setNotice("已接入所选版本；请重新审阅并确认方案。其他美术保留。");
+    });
+  }
   function recoverOlderDraft() {
     if (olderDraft) patch(olderDraft);
     setOlderDraft(null);
@@ -215,6 +241,7 @@ export function useStudio() {
     generate,
     olderDraft,
     recoverOlderDraft,
+    connectResource,
     reload: () => setAttempt((v) => v + 1),
   };
 }
