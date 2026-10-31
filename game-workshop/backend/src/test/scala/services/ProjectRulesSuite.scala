@@ -1,4 +1,5 @@
-package services
+package services.projects
+import services.Fixtures
 import munit.FunSuite
 import services.projects.utils.ProjectRules
 import services.projects.objects.*
@@ -20,8 +21,8 @@ class ProjectRulesSuite extends FunSuite:
     val p = ProjectRules.prepare(Fixtures.project,0,"t").toOption.getOrElse(fail("prepare"))
     assert(ProjectRules.generate(p,p.version,"t","a").isLeft)
     val confirmed = ProjectRules.confirm(p,p.version,"t").toOption.getOrElse(fail("confirm"))
-    val generated = ProjectRules.generate(confirmed,confirmed.version,"t","a").toOption.getOrElse(fail("generate"))
-    assertEquals(ProjectRules.generate(generated,generated.version,"t","b"),Right(generated))
+    val generated = ProjectRules.generate(confirmed,confirmed.version,"t","a",Fixtures.bindings).toOption.getOrElse(fail("generate"))
+    assertEquals(ProjectRules.generate(generated,generated.version,"t","b",Fixtures.bindings),Right(generated))
   }
   test("修改资料清除方案确认和原型，原始人物保留") {
     val c = Character("c","林","","","","胆小","先等等","","保护朋友","辅助","不能改名字","",Nil)

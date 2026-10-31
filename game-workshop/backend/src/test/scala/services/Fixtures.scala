@@ -4,3 +4,6 @@ object Fixtures:
   val world = World("云海城市","","","","保持云海背景","",Nil)
   val input = GameInput("云海试炼","rpg","参考回合制小队战斗","","",world,Nil)
   val project = Project("p","owner",0,input,None,None,"2026-10-31T00:00:00Z")
+
+  val bindings = List("scene","character-default","enemy-default").map(id => services.artwork.objects.ArtworkBinding(id,s"r-$id","source","processed","source-hash","processed-hash"))
+  def confirmed(in: GameInput = input): Project = project.copy(version=2,input=in,plan=Some(DesignPlan(2,in,Nil,Nil,RuntimeSettings(2,5),true,"local-template-v1")))

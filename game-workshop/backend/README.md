@@ -2,6 +2,10 @@
 
 这是多类型游戏生成平台的新 Scala 3 后端，位于 `game-workshop/backend/`。
 
+## 美术流水线更新
+
+当前后端已加入独立美术清单、素材版本、局部修改、加工与失败重试。**GenerateGameMessage返回结构已变更**，前端必须读取status，不能把等待模型配置当作制作完成。完整接口与限制见 [后端美术任务与版本机制](../../docs/后端美术任务与版本机制.md)。真实图片模型仍未接入。
+
 ## 已实现
 
 - 10种玩法介绍；MOBA、回合制RPG、塔防、卡牌声明为简化单机原型，其他类型仅可保存资料和整理方案。
@@ -11,7 +15,7 @@
 - 乐观版本检查、同一创建请求标识幂等；修改原始资料后清除旧方案确认和原型。
 - PNG/JPEG参考图上传及私有读取，格式签名、2MB和4096像素边长限制。
 
-目前没有接入AI、图片理解、任意技能脚本、联网对战或任意代码生成。`GenerateGameMessage` 生成结构化的模板运行配置；需要配套前端运行器才能试玩。用户的自由文本要求作为设计资料保存，不声称已经转换成可执行机制。
+目前没有接入AI、图片理解、任意技能脚本、联网对战或任意代码生成。`GenerateGameMessage` 在所需美术就绪后生成绑定素材的模板运行配置；服务未配置时返回等待状态，需要配套前端运行器才能试玩。用户的自由文本要求作为设计资料保存，不声称已经转换成可执行机制。
 
 ## Windows 本机启动
 
@@ -46,7 +50,7 @@
 | PreparePlanMessage | `{projectId, expectedVersion}` | 带未确认方案的Project |
 | RevisePlanMessage | `{projectId, expectedVersion, additions, settings}` | 更新后的Project，确认失效 |
 | ConfirmPlanMessage | `{projectId, expectedVersion}` | 已确认的Project |
-| GenerateGameMessage | `{projectId, expectedVersion}` | 带GameArtifact的Project |
+| GenerateGameMessage | `{projectId, expectedVersion}` | `{status, project, artwork, message}`；美术完成后project才含新GameArtifact |
 | UploadAssetMessage | `{mime, base64}` | `{id,mime,base64}` |
 | GetAssetMessage | JSON字符串assetId | `{id,mime,base64}` |
 

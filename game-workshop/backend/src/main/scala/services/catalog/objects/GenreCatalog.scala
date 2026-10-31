@@ -1,6 +1,5 @@
-package services.catalog.utils
-import services.catalog.objects.Genre
-object Catalog:
+package services.catalog.objects
+object GenreCatalog:
   val all: List[Genre] = List(
     Genre("moba","动作与对战","MOBA","控制英雄与电脑对手进行阵地对抗。","移动、普通攻击、治疗，靠近敌方建筑推进。","单线推进 → 清兵 → 攻击防御塔 → 击破基地。","摧毁敌方基地；己方基地被毁则失败。",List("英雄","兵线","防御塔","基地"),"队伍规模？保留推塔、兵线、野区中的哪些机制？","prototype","单机单线2D原型，键盘移动、电脑对手、固定攻击与治疗；没有联网、装备或自定义技能。"),
     Genre("rpg","角色扮演 RPG","回合制 RPG","带领角色逐步挑战敌人，积累战斗优势。","选择攻击、防御或治疗，观察生命值与敌方行动。","选择角色 → 回合战斗 → 战后恢复 → 下一场挑战。","完成指定场数的战斗；生命归零则失败。",List("回合","生命","防御","治疗"),"想要什么战斗节奏、职业、装备或任务？","prototype","单机回合战斗原型，固定攻击、防御与治疗；不含开放世界、自由任务及自定义技能执行。"),

@@ -13,3 +13,4 @@ libraryDependencies ++= Seq(
 )
 Test / fork := true
 Compile / run / fork := true
+Test / parallelExecution := false

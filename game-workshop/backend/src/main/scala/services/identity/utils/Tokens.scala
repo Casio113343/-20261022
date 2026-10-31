@@ -2,7 +2,7 @@ package services.identity.utils
 import cats.effect.IO
 import java.security.{MessageDigest, SecureRandom}
 import java.util.{Base64, UUID}
-object Tokens:
+private[identity] object Tokens:
   def create: IO[(String, String)] = IO.blocking {
     val bytes = new Array[Byte](32)
     new SecureRandom().nextBytes(bytes)
