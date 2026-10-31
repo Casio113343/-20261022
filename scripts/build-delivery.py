@@ -32,10 +32,12 @@ instructions = [
  ('06 刷新后搜索成果，再进入「创作工作台」','已保存的成果可以留到以后继续使用。'),
  ('07 填写游戏名称与参考玩法，点击「保存草稿」','先保存游戏资料，再继续整理和确认方案。'),
 ]
-for segment, (heading, hint) in zip(segments, instructions):
+durations = [20, 28, 32, 20, 28, 24, 28]  # 操作阅读节奏，总计180秒
+assert sum(durations) == 180
+for segment, (heading, hint), seconds in zip(segments, instructions, durations):
  frames=segment['frames'];duration=segment['durationMs'];cache={}
- for tick in range(140):
-  ms=tick/140*duration
+ for tick in range(seconds * 10):
+  ms=tick/(seconds * 10)*duration
   idx=max(i for i,f in enumerate(frames) if f['ms']<=max(ms,frames[0]['ms']))
   if idx not in cache:
    shot=Image.open(CAP/frames[idx]['name']).convert('RGB');shot.thumbnail((1240,842))
