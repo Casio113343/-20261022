@@ -8,3 +8,7 @@ object CharacterDesignRoutes:
     Endpoint.secured((owner: String, in: ResourceSaveInput) => SaveCharacterDesignMessage(owner,in)),
     Endpoint.secured((owner: String, in: Json) => ListCharacterDesignsMessage(owner))
   )
+
+  def generationMessages(executor: services.system.generation.GenerationExecutor): List[Endpoint] = List(
+    Endpoint.phased((owner: String, in: services.generation.objects.GenerationInput) => GenerateCharacterDesignMessage(owner,in))((owner,in,task) => executor.finish(owner,task.id))
+  )

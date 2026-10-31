@@ -8,3 +8,7 @@ object ImageEditRoutes:
     Endpoint.secured((owner: String, in: ResourceSaveInput) => SaveImageEditMessage(owner,in)),
     Endpoint.secured((owner: String, in: Json) => ListImageEditsMessage(owner))
   )
+
+  def generationMessages(executor: services.system.generation.GenerationExecutor): List[Endpoint] = List(
+    Endpoint.phased((owner: String, in: services.generation.objects.GenerationInput) => GenerateImageEditMessage(owner,in))((owner,in,task) => executor.finish(owner,task.id))
+  )

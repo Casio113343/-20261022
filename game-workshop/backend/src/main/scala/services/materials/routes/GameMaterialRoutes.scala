@@ -8,3 +8,7 @@ object GameMaterialRoutes:
     Endpoint.secured((owner: String, in: ResourceSaveInput) => SaveGameMaterialMessage(owner,in)),
     Endpoint.secured((owner: String, in: Json) => ListGameMaterialsMessage(owner))
   )
+
+  def generationMessages(executor: services.system.generation.GenerationExecutor): List[Endpoint] = List(
+    Endpoint.phased((owner: String, in: services.generation.objects.GenerationInput) => GenerateGameMaterialMessage(owner,in))((owner,in,task) => executor.finish(owner,task.id))
+  )
