@@ -14,5 +14,7 @@
   "excluded_sensitive_and_cache_paths": "passed",
   "backend_url": "https://github.com/Casio113343/-20261022/tree/main/game-workshop/backend",
   ".mp4_sha256": "75c6a3d90560c4dc3eb9fa1caea0f25069bd31d1a9848225ac89c97b7001b7ed",
-  ".zip_sha256": "19974c715913ea0bc397a031a65bf6bd9c756d8681e3f7e046c2ddf9d635bf94"
+  ".zip_sha256": "19974c715913ea0bc397a031a65bf6bd9c756d8681e3f7e046c2ddf9d635bf94",
+  "video_filename": "造游工坊-使用教程-3分00秒.mp4",
+  "video_sha256": "75c6a3d90560c4dc3eb9fa1caea0f25069bd31d1a9848225ac89c97b7001b7ed"
 }
