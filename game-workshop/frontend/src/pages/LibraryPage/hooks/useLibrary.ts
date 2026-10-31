@@ -1,3 +1,15 @@
+import { saveCharacterDesign } from "../../../apis/characters/SaveCharacterDesignMessage";
+import { listCharacterDesigns } from "../../../apis/characters/ListCharacterDesignsMessage";
+import { saveWorldDesign } from "../../../apis/worldbuilding/SaveWorldDesignMessage";
+import { listWorldDesigns } from "../../../apis/worldbuilding/ListWorldDesignsMessage";
+import { saveSkillDesign } from "../../../apis/skills/SaveSkillDesignMessage";
+import { listSkillDesigns } from "../../../apis/skills/ListSkillDesignsMessage";
+import { saveGameMaterial } from "../../../apis/materials/SaveGameMaterialMessage";
+import { listGameMaterials } from "../../../apis/materials/ListGameMaterialsMessage";
+import { saveImageEdit } from "../../../apis/imageediting/SaveImageEditMessage";
+import { listImageEdits } from "../../../apis/imageediting/ListImageEditsMessage";
+import { savePromotion } from "../../../apis/promotion/SavePromotionMessage";
+import { listPromotions } from "../../../apis/promotion/ListPromotionsMessage";
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { resourceKinds } from "../../../objects/library";
@@ -9,9 +21,25 @@ import type {
 import type { Session } from "../../../objects/workshop";
 import { openSession } from "../../../system/api/client";
 import { listResources } from "../../../apis/library/ListResourcesMessage";
-import { saveResource } from "../../../apis/library/SaveResourceMessage";
+
 import { emptyResource, validateResource } from "../functions/resources";
-export function useLibrary() {
+const savers = {
+  character: saveCharacterDesign,
+  world: saveWorldDesign,
+  skill: saveSkillDesign,
+  asset: saveGameMaterial,
+  edit: saveImageEdit,
+  promo: savePromotion,
+};
+const loaders = {
+  character: listCharacterDesigns,
+  world: listWorldDesigns,
+  skill: listSkillDesigns,
+  asset: listGameMaterials,
+  edit: listImageEdits,
+  promo: listPromotions,
+};
+export function useLibrary(service?: ResourceKind) {
   const [params, setParams] = useSearchParams();
   const [resources, setResources] = useState<readonly CreativeResource[]>([]);
   const [session, setSession] = useState<Session | null>(null);
@@ -30,7 +58,10 @@ export function useLibrary() {
     setError("");
     openSession()
       .then(async (s) => {
-        const rs = await listResources({}, s.token);
+        const rs = await (service ? loaders[service] : listResources)(
+          {},
+          s.token,
+        );
         if (active) {
           setSession(s);
           setResources(rs);
@@ -39,7 +70,8 @@ export function useLibrary() {
           setDraft(
             selected?.history.at(-1)?.data ?? {
               ...emptyResource(
-                resourceKinds.find((k) => k.id === params.get("kind"))?.id ??
+                service ??
+                  resourceKinds.find((k) => k.id === params.get("kind"))?.id ??
                   "character",
               ),
               ...(params.get("sourceProject") && params.get("revision")
@@ -64,7 +96,7 @@ export function useLibrary() {
     return () => {
       active = false;
     };
-  }, [params, attempt]);
+  }, [params, attempt, service]);
   function begin(kind: ResourceKind) {
     if (!window.confirm("打开新创作？未保存的编辑内容将不保留。")) return;
     setParams({ kind });
@@ -91,7 +123,7 @@ export function useLibrary() {
     setNotice("");
     try {
       if (!newId.current) newId.current = crypto.randomUUID();
-      const saved = await saveResource(
+      const saved = await savers[draft.kind](
         {
           resourceId: current?.id ?? newId.current,
           expectedVersion: current?.version ?? 0,

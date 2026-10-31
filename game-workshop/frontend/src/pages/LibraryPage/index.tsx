@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import type { ResourceKind } from "../../objects/library";
 import { resourceKinds } from "../../objects/library";
 import { useLibrary } from "./hooks/useLibrary";
 import { ResourceEditor } from "./components/ResourceEditor";
 import { secondary } from "../../components/ui/Field";
 export default function LibraryPage({
   mode,
+  service,
 }: {
   mode: "services" | "library";
+  service?: ResourceKind;
 }) {
-  const l = useLibrary();
+  const l = useLibrary(service);
   const [filter, setFilter] = useState("all");
   const [query, setQuery] = useState("");
   const visible = l.resources.filter((r) => {
@@ -27,7 +30,10 @@ export default function LibraryPage({
           CREATIVE CONNECTIONS
         </p>
         <h1 className="mt-3 text-3xl font-semibold">
-          {mode === "services" ? (resourceKinds.find(k=>k.id===l.draft.kind)?.name ?? "小服务创作") : "创作资源库"}
+          {mode === "services"
+            ? (resourceKinds.find((k) => k.id === l.draft.kind)?.name ??
+              "独立创作")
+            : "创作资源库"}
         </h1>
         <p className="mt-3 text-sm leading-7 text-muted">
           独立创作，保存成果，再把它们连接成游戏。已选用的版本由你决定何时更新。
@@ -35,7 +41,7 @@ export default function LibraryPage({
         <div className="mt-4 flex flex-wrap gap-3">
           <Link
             className={secondary}
-            to={mode === "services" ? "/library" : "/services"}
+            to={mode === "services" ? "/library" : "/character"}
           >
             {mode === "services" ? "查看已保存成果" : "开始新的小创作"}
           </Link>

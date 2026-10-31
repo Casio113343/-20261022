@@ -153,8 +153,8 @@ export function ResourceConnector({
           {!data.resources.length ? (
             <p className="text-sm text-muted">
               还没有成果。去
-              <Link className="mx-1 text-mint underline" to="/services">
-                小服务创作
+              <Link className="mx-1 text-mint underline" to="/character">
+                角色设计
               </Link>
               保存第一项。
             </p>

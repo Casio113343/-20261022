@@ -147,7 +147,7 @@ export function ArtworkGallery({
                       </details>
                       <Link
                         className="mt-2 block text-xs text-mint underline"
-                        to={`/services?sourceProject=${manifest.projectId}&revision=${r.id}&title=${encodeURIComponent(slot.subject || "美术素材")}`}
+                        to={`/asset?sourceProject=${manifest.projectId}&revision=${r.id}&title=${encodeURIComponent(slot.subject || "美术素材")}`}
                       >
                         保存此生成素材到创作资源库
                       </Link>

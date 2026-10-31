@@ -8,7 +8,6 @@ object LibraryRoutes:
   val apiMessages: List[Endpoint] = List(
     Endpoint.secured((owner: String, in: Json) => ListResourcesMessage(owner)),
     Endpoint.secured((owner: String, in: String) => GetResourceMessage(owner,in)),
-    Endpoint.secured((owner: String, in: ResourceSaveInput) => SaveResourceMessage(owner,in)),
     Endpoint.secured((owner: String, in: ResourceAttachInput) => AttachResourceMessage(owner,in)),
     Endpoint.secured((owner: String, in: ProjectIdInput) => ListProjectResourcesMessage(owner,in.projectId))
   )

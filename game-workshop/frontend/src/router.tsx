@@ -1,10 +1,15 @@
+import CharacterDesignPage from "./pages/CharacterDesignPage";
+import WorldDesignPage from "./pages/WorldDesignPage";
+import SkillDesignPage from "./pages/SkillDesignPage";
+import GameMaterialPage from "./pages/GameMaterialPage";
+import ImageEditPage from "./pages/ImageEditPage";
+import PromotionPage from "./pages/PromotionPage";
 import {
   BrowserRouter,
   NavLink,
   Navigate,
   Route,
   Routes,
-  useLocation,
 } from "react-router-dom";
 import {
   Box,
@@ -20,9 +25,24 @@ import ProductionPage from "./pages/ProductionPage";
 import LibraryPage from "./pages/LibraryPage";
 import { resourceKinds } from "./objects/library";
 function ServiceNavigation() {
- const location=useLocation();
- const kind=new URLSearchParams(location.search).get("kind") ?? (location.search.includes("sourceProject")?"asset":"character");
- return <nav aria-label="小服务" className="mt-4 grid grid-cols-2 gap-1 lg:grid-cols-1"><p className="col-span-full px-3 py-2 text-[10px] tracking-widest text-white/35">小服务创作</p>{resourceKinds.map(service=><NavLink key={service.id} to={`/services?kind=${service.id}`} className={`rounded-xl px-3 py-2.5 text-sm ${location.pathname==="/services"&&kind===service.id?"bg-white/10 text-white":"text-white/60 hover:bg-white/5"}`}>{service.name}</NavLink>)}</nav>;
+  return (
+    <nav
+      aria-label="独立创作服务"
+      className="mt-4 grid grid-cols-2 gap-1 lg:grid-cols-1"
+    >
+      {resourceKinds.map((service) => (
+        <NavLink
+          key={service.id}
+          to={`/${service.id}`}
+          className={({ isActive }) =>
+            `rounded-xl px-3 py-2.5 text-sm ${isActive ? "bg-white/10 text-white" : "text-white/60 hover:bg-white/5"}`
+          }
+        >
+          {service.name}
+        </NavLink>
+      ))}
+    </nav>
+  );
 }
 export function Router() {
   return (
@@ -64,7 +84,14 @@ export function Router() {
             </NavLink>
           </nav>
           <ServiceNavigation />
-          <NavLink to="/library" className={({isActive})=>`mt-3 rounded-xl px-3 py-3 text-sm ${isActive?"bg-white/10 text-white":"text-white/70 hover:bg-white/10"}`}>创作资源库</NavLink>
+          <NavLink
+            to="/library"
+            className={({ isActive }) =>
+              `mt-3 rounded-xl px-3 py-3 text-sm ${isActive ? "bg-white/10 text-white" : "text-white/70 hover:bg-white/10"}`
+            }
+          >
+            创作资源库
+          </NavLink>
           <div className="mt-auto hidden pt-10 lg:block">
             <div className="rounded-xl border border-white/10 p-4">
               <Code2 size={18} className="mb-3 text-[#b5d7ba]" />
@@ -83,9 +110,15 @@ export function Router() {
         </aside>
         <div className="mx-auto max-w-[1510px] px-5 py-7 md:px-10 lg:py-8">
           <Routes>
+            <Route path="/character" element={<CharacterDesignPage />} />
+            <Route path="/world" element={<WorldDesignPage />} />
+            <Route path="/skill" element={<SkillDesignPage />} />
+            <Route path="/asset" element={<GameMaterialPage />} />
+            <Route path="/edit" element={<ImageEditPage />} />
+            <Route path="/promo" element={<PromotionPage />} />
             <Route
               path="/services"
-              element={<LibraryPage key="services" mode="services" />}
+              element={<Navigate to="/character" replace />}
             />
             <Route
               path="/library"
