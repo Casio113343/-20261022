@@ -1,0 +1,36 @@
+@import "tailwindcss";
+@theme {
+  --color-ink: #202632;
+  --color-muted: #687282;
+  --color-paper: #f4f3ef;
+  --color-line: #e2e4e5;
+  --color-accent: #ca6b32;
+  --color-mint: #397f70;
+  --font-sans: "Segoe UI", "Microsoft YaHei", system-ui, sans-serif;
+}
+@layer base {
+  body {
+    @apply m-0 bg-paper text-ink antialiased;
+  }
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    @apply outline-offset-4;
+  }
+  button {
+    @apply cursor-pointer disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  input,
+  textarea,
+  select {
+    @apply w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm outline-none transition focus:border-mint focus:ring-2 focus:ring-mint/10;
+  }
+  textarea {
+    @apply resize-y;
+  }
+  a {
+    @apply no-underline;
+  }
+}
