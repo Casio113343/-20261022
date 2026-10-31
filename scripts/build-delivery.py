@@ -22,9 +22,17 @@ proc=subprocess.Popen(cmd,stdin=subprocess.PIPE,stderr=open(OUT/'encoding.log','
 def emit(im,n):
  raw=im.tobytes()
  for _ in range(n):proc.stdin.write(raw)
-emit(card('造游工坊 · 使用流程演示',['六个独立创作服务 + 统一资源库 + 游戏工作台','本片包含真实页面操作与标明的后端说明页。','演示：角色填写 → 保存 → 刷新检索 → 游戏草稿','真实 AI 模型尚未配置；不展示虚构生成结果。']),120)
 segments=json.loads((CAP/'segments.json').read_text(encoding='utf-8'))
-for segment in segments:
+instructions = [
+ ('01 选择「角色设计」，开始独立创作','从左侧进入需要的功能，填写自己的设定。'),
+ ('02 填写成果名称、创作需求和人物身份','名称方便以后查找；介绍说明你希望制作什么。'),
+ ('03 补充人物性格、口头禅和技能','按已有想法填写，参考图片可选。'),
+ ('04 点击「保存到创作资源库」','保存后可继续编辑，并保存为新的版本。'),
+ ('05 打开「创作资源库」，找到保存的成果','使用搜索框或服务分类筛选。'),
+ ('06 刷新后搜索成果，再进入「创作工作台」','已保存的成果可以留到以后继续使用。'),
+ ('07 填写游戏名称与参考玩法，点击「保存草稿」','先保存游戏资料，再继续整理和确认方案。'),
+]
+for segment, (heading, hint) in zip(segments, instructions):
  frames=segment['frames'];duration=segment['durationMs'];cache={}
  for tick in range(140):
   ms=tick/140*duration
@@ -32,12 +40,9 @@ for segment in segments:
   if idx not in cache:
    shot=Image.open(CAP/frames[idx]['name']).convert('RGB');shot.thumbnail((1240,842))
    im=Image.new('RGB',(1280,960),'#f6f5f1');im.paste(shot,((1280-shot.width)//2,60))
-   d=ImageDraw.Draw(im);d.rectangle((0,0,1280,58),fill='#161b24');d.text((24,12),segment['label'],font=font(26),fill='white')
-   d.text((24,920),'实际浏览器操作采集 | 当前未连接真实模型，不将参考图当作生成图',font=font(22),fill='#425f4e');cache[idx]=im
+   d=ImageDraw.Draw(im);d.rectangle((0,0,1280,58),fill='#161b24');d.text((24,12),heading,font=font(26),fill='white')
+   d.text((24,920),hint,font=font(22),fill='#425f4e');cache[idx]=im
   emit(cache[idx],1)
-emit(card('后端说明 · 独立 AI 生成链路',['六类服务各有独立 Generate / Save / List 接口。','生成任务持久化：查询状态、明确重试、用户隔离。','AI 结果先保存为候选，用户确认后建立资源版本。','图片保存原图与加工图；失败不覆盖原有成果。','配置缺失返回 waiting_for_provider，前端按钮尚未接线。']),200)
-emit(card('GitHub 后端源码链接',['github.com/Casio113343/-20261022/tree/main/','game-workshop/backend','AI 生成接口：services/generation/api','完整链接在 ZIP 根目录的「提交说明.md」中。','源码版本：5d316477420ca6fe5591da1ff93725dfeec789ec']),200)
-emit(card('交付范围与验证',['源码 ZIP 包含前后端、锁文件、脚本和运行说明。','前端 23 项测试、后端 30 项测试已通过。','本次录像未完成资源接入确认后的操作演示。','没有录制真实 AI 绘图或最终游戏生成。','片长 2 分 48 秒；源码包与视频合计小于 100 MB。']),180)
 proc.stdin.close()
 if proc.wait()!=0:raise RuntimeError('视频编码失败')
 print('video',video.stat().st_size)

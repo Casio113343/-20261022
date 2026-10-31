@@ -1,18 +1,18 @@
 {
   "source_commit": "5d316477420ca6fe5591da1ff93725dfeec789ec",
-  "video_seconds": 168,
+  "video_seconds": 98,
   "video_codec": "H.264",
   "resolution": "1280x960",
   "fps": 10,
   "zip_files": 284,
-  "zip_bytes": 312090,
-  "video_bytes": 826107,
-  "total_bytes": 1138197,
+  "zip_bytes": 311698,
+  "video_bytes": 551489,
+  "total_bytes": 863187,
   "zip_crc": "passed",
   "unpack_hash_comparison": "passed",
   "required_files": "passed",
   "excluded_sensitive_and_cache_paths": "passed",
   "backend_url": "https://github.com/Casio113343/-20261022/tree/main/game-workshop/backend",
-  ".mp4_sha256": "94020b60b3d987e622372e9178ac07b080f9dc25eb8f646e600cbc28908a0214",
-  ".zip_sha256": "1004787b6801338e272560aef8013b9ef06f735c4486c2e27baacc96ce990fc2"
+  ".mp4_sha256": "75d5ca604400d1fe783c48092f556906392d4aa1bca050cded14f16adf89861c",
+  ".zip_sha256": "03e857b905eeb8adcadb3deb602afdece9a4d61f51b70fb38cb108b246b4c9a4"
 }
