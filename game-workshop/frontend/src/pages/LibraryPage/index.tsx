@@ -27,7 +27,7 @@ export default function LibraryPage({
           CREATIVE CONNECTIONS
         </p>
         <h1 className="mt-3 text-3xl font-semibold">
-          {mode === "services" ? "从一项小创作开始" : "创作资源库"}
+          {mode === "services" ? (resourceKinds.find(k=>k.id===l.draft.kind)?.name ?? "小服务创作") : "创作资源库"}
         </h1>
         <p className="mt-3 text-sm leading-7 text-muted">
           独立创作，保存成果，再把它们连接成游戏。已选用的版本由你决定何时更新。
@@ -71,21 +71,7 @@ export default function LibraryPage({
         <p>正在读取资源库…</p>
       ) : (
         <>
-          {mode === "services" ? (
-            <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-              {resourceKinds.map((k) => (
-                <button
-                  key={k.id}
-                  disabled={l.busy}
-                  onClick={() => l.begin(k.id)}
-                  className={`rounded-2xl border p-5 text-left ${l.draft.kind === k.id ? "border-mint bg-mint/5" : "border-line bg-white"}`}
-                >
-                  <h2 className="font-semibold">{k.name}</h2>
-                  <p className="mt-2 text-xs leading-6 text-muted">{k.intro}</p>
-                </button>
-              ))}
-            </section>
-          ) : (
+          {mode === "library" && (
             <section className="space-y-4">
               <div className="flex flex-wrap gap-3">
                 <label className="flex-1 text-xs">

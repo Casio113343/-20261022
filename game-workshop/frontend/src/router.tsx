@@ -4,6 +4,7 @@ import {
   Navigate,
   Route,
   Routes,
+  useLocation,
 } from "react-router-dom";
 import {
   Box,
@@ -17,11 +18,17 @@ import ProjectsPage from "./pages/ProjectsPage";
 import PlayPage from "./pages/PlayPage";
 import ProductionPage from "./pages/ProductionPage";
 import LibraryPage from "./pages/LibraryPage";
+import { resourceKinds } from "./objects/library";
+function ServiceNavigation() {
+ const location=useLocation();
+ const kind=new URLSearchParams(location.search).get("kind") ?? (location.search.includes("sourceProject")?"asset":"character");
+ return <nav aria-label="小服务" className="mt-4 grid grid-cols-2 gap-1 lg:grid-cols-1"><p className="col-span-full px-3 py-2 text-[10px] tracking-widest text-white/35">小服务创作</p>{resourceKinds.map(service=><NavLink key={service.id} to={`/services?kind=${service.id}`} className={`rounded-xl px-3 py-2.5 text-sm ${location.pathname==="/services"&&kind===service.id?"bg-white/10 text-white":"text-white/60 hover:bg-white/5"}`}>{service.name}</NavLink>)}</nav>;
+}
 export function Router() {
   return (
     <BrowserRouter>
       <div className="min-h-screen lg:pl-[216px]">
-        <aside className="z-30 flex flex-col bg-[#161b24] px-5 py-6 text-white lg:fixed lg:inset-y-0 lg:left-0 lg:w-[216px]">
+        <aside className="z-30 flex flex-col bg-[#161b24] px-5 py-6 text-white lg:overflow-y-auto lg:fixed lg:inset-y-0 lg:left-0 lg:w-[216px]">
           <NavLink to="/studio" className="flex items-center gap-3">
             <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 bg-white/5">
               <Box size={23} className="text-[#edb986]" />
@@ -56,20 +63,8 @@ export function Router() {
               我的作品
             </NavLink>
           </nav>
-          <nav className="mt-2 flex gap-2 lg:flex-col">
-            <NavLink
-              className="rounded-xl px-3 py-3 text-sm text-white/70 hover:bg-white/10"
-              to="/services"
-            >
-              小服务创作
-            </NavLink>
-            <NavLink
-              className="rounded-xl px-3 py-3 text-sm text-white/70 hover:bg-white/10"
-              to="/library"
-            >
-              创作资源库
-            </NavLink>
-          </nav>
+          <ServiceNavigation />
+          <NavLink to="/library" className={({isActive})=>`mt-3 rounded-xl px-3 py-3 text-sm ${isActive?"bg-white/10 text-white":"text-white/70 hover:bg-white/10"}`}>创作资源库</NavLink>
           <div className="mt-auto hidden pt-10 lg:block">
             <div className="rounded-xl border border-white/10 p-4">
               <Code2 size={18} className="mb-3 text-[#b5d7ba]" />
