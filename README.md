@@ -22,7 +22,7 @@ GitHub 仓库：[Casio113343/-20261022](https://github.com/Casio113343/-20261022
 
 前端使用 TypeScript + React，后端使用 Scala 3，遵循纯函数核心、副作用边界和 Monad / IO 组合的课程方案。
 
-当前产品为多类型游戏生成平台，尚处于需求设计阶段，具体范围见前端需求规格。
+当前产品为多类型游戏生成平台，新工程位于 [game-workshop](./game-workshop/README.md)。后端已完成首轮实现及10项测试，前端正在开发；见 [后端说明](./game-workshop/backend/README.md) 和 [验证记录](./docs/后端首轮验证记录.md)。
 
 ## 课程来源
 

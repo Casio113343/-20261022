@@ -1,0 +1,7 @@
+.tools/
+.runtime/
+node_modules/
+dist/
+target/
+.bsp/
+.metals/
