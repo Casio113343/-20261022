@@ -1,0 +1,11 @@
+{
+  "source_commit": "f7b9e8cd521443065acf5556d464530561aad899",
+  "video_seconds": 180.0,
+  "zip_bytes": 1127791,
+  "entries": 286,
+  "zip_crc": "passed",
+  "extracted_files_sha256": "passed",
+  "excluded_credentials_and_caches": "passed",
+  "backend_link": "https://github.com/Casio113343/-20261022/tree/main/game-workshop/backend",
+  "sha256": "d5aa7ee34188f9d30de4cabcd60eb1358cb3f4e9b0f72e2a223c6902b453ae86"
+}
